@@ -138,3 +138,375 @@ button:disabled {
         padding: 1rem
     }
 }
+
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+; #Warn  ; Enable warnings to assist with detecting common errors.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+
+;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+;FUNÇÃO DE ESPERA
+
+Esperar(){
+SLEEP 600
+WinActivate, A
+SLEEP 200
+Send, {ENTER}
+SLEEP 600
+WinActivate, A
+}
+
+;FUNÇÃO DE ENVIO DE CHAT COM ENTER
+
+ChatBB(texto){
+SLEEP 200
+Send, {ENTER 2}
+Clipboard = %texto%
+Send, ^v
+SLEEP 400
+Send, {ENTER 2}
+SLEEP 200
+}
+
+;FUNÇÃO DE ENVIO DE CHAT SEM ENTER
+
+ChatBB2(texto){
+SLEEP 200
+Clipboard = %texto%
+Send, ^v
+SLEEP 400
+}
+
+;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+;FUNÇÃO QUE RETORNA O NOME DO FUNCIONARIO
+
+nomeFunci(){
+return "Daniel"
+}
+
+;FUNÇÃO QUE OBTEM NOME DO CLIENTE
+
+nome(){
+WinGetActiveTitle, Title
+    StringSplit, word_array, Title, %A_Space%, .
+
+return word_array1
+}
+
+;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+;FUNÇÕES QUE MONTAM A SAUDAÇÃO DE ACORDO COM O HORÁRIO DO SISTEMA
+
+Saudacao3(){
+If ((A_hour > 5) AND (A_hour < 12)) ;  Se for entre 06:00:00 e 11:59:59 será bom dia.
+{
+    return "dia"
+}
+Else if ((A_hour >= 12) AND (A_hour < 18)) ; Do contrário, se for entre 12:00:00 e 17:59:59 será boa tarde.
+{
+    return "tarde"
+}
+else If ((A_hour >= 18) OR (A_hour <= 5)) ; Se for maior que 18:00:00 OU se for menor que 06:00:00, será boa noite.
+{
+    return "noite"
+}
+}
+
+Saudacao2(){
+If ((A_hour > 5) AND (A_hour < 12)) ;  Se for entre 06:00:00 e 11:59:59 será bom dia.
+{
+    return "Bom"
+}
+Else
+{
+    return "Boa"
+}
+}
+
+Saudacao1(){
+If ((A_hour > 5) AND (A_hour < 12)) ;  Se for entre 06:00:00 e 11:59:59 será bom dia.
+{
+    return "um"
+}
+Else
+{
+    return "uma"
+}
+}
+
+;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+;TEXTO BASE DE OFERTA
+
+Numpad0(){
+
+;OBTEM NOME DO CLIENTE E DO FUNCIONÁRIO
+
+cliente := nome()
+Funci := nomeFunci()
+
+;OBTEM OS TEXTO DE SAUDAÇÃO DE ACORDO COM HORA DO SISTEMA
+
+Cumprimento2 := Saudacao2()
+Cumprimento3 := Saudacao3()	
+
+;MENSAGENS
+
+ChatBB(Cumprimento2 . " " . Cumprimento3 ", " . cliente . ", tudo bom com você? Sou o " . Funci . " da sua equipe de atendimento e vim aqui te apresentar uma ótima oportunidade!")
+ChatBB("")
+ChatBB("Vamos aproveitar e fazer uma simulação sem compromisso?")
+}
+
+;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+;ENVIO DE OPT-IN WHATSAPP. DE ACORDO COM OPÇÃO, SELECIONAR FUNÇÃO NO ATALHO ^Numpad8::
+
+Numpad8(){
+
+;PARA OPÇÃO COM TRÊS CAMPOS
+
+;OBTEM NOME DO CLIENTE E DO FUNCIONÁRIO
+
+Nome := nome()
+Funci := nomeFunci()
+
+;PREENCHE O FORMULÁRIO DE OPT-IN
+
+SendInput, {TAB}
+SLEEP 100
+SendInput, %Nome%
+SLEEP 100
+SendInput, {TAB}
+SLEEP 100
+
+SendInput, %Funci%
+
+SLEEP 100
+SendInput, {TAB}
+SLEEP 100
+SendInput, energia renovável.
+SLEEP 100
+SendInput, {TAB}
+SLEEP 100
+SendInput, {ENTER}
+SLEEP 100
+SendInput, {TAB 2}
+SLEEP 100
+SendInput, {ENTER}
+}
+
+Numpad8v2(){
+
+;PARA OPÇÃO COM DOIS CAMPOS
+
+;OBTEM NOME DO CLIENTE E DO FUNCIONÁRIO
+
+Nome := nome()
+Funci := nomeFunci()
+
+;PREENCHE O FORMULÁRIO DE OPT-IN
+
+SendInput, {TAB}
+SLEEP 100
+SendInput, %Nome%
+SLEEP 100
+SendInput, {TAB}
+SLEEP 100
+
+SendInput, %Funci%
+
+SLEEP 100
+SendInput, {TAB}
+SLEEP 100
+SLEEP 100
+SendInput, {ENTER}
+SLEEP 100
+SendInput, {TAB 2}
+SLEEP 100
+SendInput, {ENTER}
+}
+
+;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+;MENSAGEM DE FIM DO ATENDIMENTO
+
+Numpad9(){
+
+;OBTEM NOME DO CLIENTE
+
+cliente := nome()
+
+;MENSAGEM
+
+ChatBB(cliente . ", vou encerrar este atendimento, tá bom? Você pode receber uma mensagem para avaliar meu atendimento. Sua avaliação é muito importante pra mim! Agradeço seu tempo e atenção.")
+}
+
+;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+;ATALHOS DO CHAT - CHAMAM AS FUNÇÕES QUE ENVIAM AS MENSAGENS
+
+^Numpad0::
+Numpad0()
+return
+
+^Numpad8::
+
+form := 2
+
+if (form = 3)
+{
+    Numpad8()
+}
+else 
+{
+    Numpad8v2()
+}
+return
+
+^Numpad9::
+Numpad9()
+return
+
+;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+;ATALHO DE ANOTAÇÃO
+
+^\::
+sendinput, oferta de crédito energia renovável
+return
+
+;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+;ATALHOS DO CONTROLE DE PLANILHA
+
+^Numpad1::
+SLEEP 100
+Send, {ALT DOWN}{TAB}{ALT UP}
+SLEEP 200
+SendInput, SIM
+SLEEP 100
+SendInput, {TAB}
+SLEEP 100
+SendInput, %A_YYYY%%A_MM%%A_DD%
+SLEEP 100
+SendInput, {TAB}
+SLEEP 100
+SendInput, %A_USERNAME%
+SLEEP 100
+Send, {Enter}
+SLEEP 100
+Send, ^c
+SLEEP 200
+Send, {TAB}
+SLEEP 400
+Send, {ALT DOWN}{TAB}{ALT UP}
+SLEEP 100
+return
+
+^Numpad2::
+SLEEP 100
+Send, {ALT DOWN}{TAB}{ALT UP}
+SLEEP 200
+Send, {ESC}
+SLEEP 100
+Send, {LEFT}
+SLEEP 100
+Send, {ENTER}
+SLEEP 100
+Send, ^c
+SLEEP 200
+Send, {TAB}
+SLEEP 400
+Send, {ALT DOWN}{TAB}{ALT UP}
+SLEEP 100
+return
+
+^Numpad3::
+SLEEP 200
+Send, {ALT DOWN}{TAB}{ALT UP}
+SLEEP 100
+SendInput, NÃO
+SLEEP 100
+Send, {Enter}
+SLEEP 100
+Send, ^c
+SLEEP 200
+Send, {TAB}
+SLEEP 400
+Send, {ALT DOWN}{TAB}{ALT UP}
+SLEEP 200
+return
+
+^Numpad4::
+SendInput, Oferta de empréstimo, financiamento, e consórcio.
+SLEEP 100
+Send, {TAB 4}
+SLEEP 50
+SendInput, automa
+return
+
+^Numpad5::
+Send, automa
+return
+
+^Numpad6::
+SLEEP 100
+Send, {ALT DOWN}{TAB}{ALT UP}
+SLEEP 200
+SendInput, SIM
+SLEEP 100
+SendInput, {TAB}
+SLEEP 100
+SendInput, %A_YYYY%%A_MM%%A_DD%
+SLEEP 100
+SendInput, {TAB}
+SLEEP 100
+SendInput, %A_USERNAME%
+SLEEP 100
+Send, {Enter}
+SLEEP 100
+Send, ^c
+SLEEP 200
+Send, {TAB 4}
+SLEEP 400
+Send, {ALT DOWN}{TAB}{ALT UP}
+SLEEP 100
+return
+
+^Numpad7::
+SLEEP 100
+Send, {ALT DOWN}{TAB}{ALT UP}
+SLEEP 200
+SendInput, SIM
+SLEEP 100
+SendInput, {TAB}
+SLEEP 100
+SendInput, %A_YYYY%%A_MM%%A_DD%
+SLEEP 100
+SendInput, {TAB}
+SLEEP 100
+SendInput, %A_USERNAME%
+SLEEP 100
+SendInput, {TAB}
+SLEEP 100
+SendInput, SIM
+SLEEP 100
+SendInput, {TAB}
+SLEEP 100
+SendInput, %A_YYYY%%A_MM%%A_DD%
+SLEEP 100
+SendInput, {TAB}
+SLEEP 100
+SendInput, %A_USERNAME%
+SLEEP 100
+Send, {Enter}
+SLEEP 100
+Send, ^c
+SLEEP 200
+Send, {TAB}
+SLEEP 400
+Send, {ALT DOWN}{TAB}{ALT UP}
+SLEEP 100
+return
